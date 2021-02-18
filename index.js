@@ -4,8 +4,10 @@ const Intern= require('./Lib/intern');
 const Manager= require('./Lib/manage');
 const inquirer= require('inquirer');
 const fs =require('fs');
+const generateHtml= require('./Templates/generatehtml');
+let fileName='MyTeam.html';
 
-let finalTeam=[];
+
 
 function getTeamName(){
     inquirer
@@ -75,7 +77,7 @@ function getMemeberTypes(){
             return getIntern();
         }
         if(data.memeberchoice==='None'){
-            console.log("none")
+            console.log("Okay, Lets Get to creating your team page!")
         }
         
             
