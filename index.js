@@ -5,11 +5,12 @@ const Manager= require('./Lib/manage');
 const inquirer= require('inquirer');
 const fs =require('fs');
 const generateHtml= require('./Templates/generatehtml');
+const util = require('util');
+const writeFileAsync = util.promisify(fs.writeFile);
 let fileName='MyTeam.html';
 
 
-
-function getTeamName(){
+ function getTeamName(){
     inquirer
     .prompt([{
         type:'input',
@@ -23,26 +24,30 @@ function getTeamName(){
         console.log(teamname)
         getManager();
 
-    });
+    })
+    .then((data) => writeFileAsync(fileName, generateHtml(data)))
+    .then(() => console.log('File Created!'))
+    .catch((error) => console.log(error))
+    
 }
-getTeamName()
+getTeamName();
 
 function getManager(){
     inquirer
     .prompt([{
         type: 'input',
         message: 'What is your full name?',
-        name: 'managerName',
+        name: 'name',
     },
     {
         type: 'number',
         message: 'What is ID number?',
-        name: 'idManager',
+        name: 'id',
     },
     {
         type: 'input',
         message: 'What is your email address?',
-        name: 'emailManager',
+        name: 'email',
     },
     {
        type: 'input',
@@ -65,7 +70,7 @@ function getMemeberTypes(){
         {
             type:'list',
             message: 'Choose which type of team memeber you want added!',
-            choices: ['Engineer','Intern','None'],
+            choices: ['Engineer','Intern','None', 'Manager'],
             name:'memeberchoice'
         }
     ])
@@ -78,6 +83,9 @@ function getMemeberTypes(){
         }
         if(data.memeberchoice==='None'){
             console.log("Okay, Lets Get to creating your team page!")
+        }
+        if(data.memeberchoice==='Manager'){
+            return getManager();
         }
         
             
@@ -92,17 +100,17 @@ function getEngineer(){
         {
             type: 'input',
             message: 'What is your full name?',
-            name: 'egineerName',
+            name: 'name',
         },
         {
             type: 'number',
             message: 'What is ID number?',
-            name: 'idEngineer',
+            name: 'id',
         },
         {
             type: 'input',
             message: 'What is your email address?',
-            name: 'emailEngineer',
+            name: 'email',
         },
         {
            type: 'input',
@@ -122,17 +130,17 @@ function getIntern(){
         {
             type: 'input',
             message: 'What is your full name?',
-            name: 'internName',
+            name: 'name',
         },
         {
             type: 'number',
             message: 'What is ID number?',
-            name: 'idIntern',
+            name: 'id',
         },
         {
             type: 'input',
             message: 'What is your email address?',
-            name: 'emailIntern',
+            name: 'email',
         },
         {
            type: 'input',
@@ -146,3 +154,5 @@ function getIntern(){
     });
 }
 
+
+ 
