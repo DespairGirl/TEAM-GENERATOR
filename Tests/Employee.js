@@ -1,5 +1,4 @@
-const { it, expect } = require('@jest/globals');
-const { describe } = require('yargs');
+const jest= require('jest');
 const Employee=require('../Lib/employ');
 
 describe("Employee",()=>{
