@@ -7,7 +7,7 @@ const fs =require('fs');
 const generateHtml= require('./Templates/generatehtml');
 const util = require('util');
 const writeFileAsync = util.promisify(fs.writeFile);
-let fileName='MyTeam.html';
+let fileName='MyTeam1.html';
 
 
  function getTeamName(){
@@ -24,13 +24,12 @@ let fileName='MyTeam.html';
         console.log(teamname)
         getManager();
 
-    })
-    .then((data) => writeFileAsync(fileName, generateHtml(data)))
-    .then(() => console.log('File Created!'))
-    .catch((error) => console.log(error))
+    });
+    
+    
     
 }
-getTeamName();
+
 
 function getManager(){
     inquirer
@@ -83,13 +82,26 @@ function getMemeberTypes(){
         }
         if(data.memeberchoice==='None'){
             console.log("Okay, Lets Get to creating your team page!")
+
+            writeFileAsync(fileName,generateHtml(data), (err)=>{
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log("File Successful!")
+                }
+            });
+
+            
         }
         if(data.memeberchoice==='Manager'){
             return getManager();
         }
         
             
-    });
+    })
+    
+    
 
     
 }
@@ -154,5 +166,4 @@ function getIntern(){
     });
 }
 
-
- 
+ getTeamName();
